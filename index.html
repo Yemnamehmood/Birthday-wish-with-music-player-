@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Wish Music Player</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #ffccf9; /* Cool pastel pink background */
+            color: #333;
+            text-align: center;
+            background: linear-gradient(135deg, #ffccf9, #ff99c8); /* Birthday themed gradient */
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #491b33;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .birthday-card {
+            background: rgba(255, 182, 193, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            margin-top: 20px;
+        }
+
+        .cake {
+            margin: 20px auto;
+            
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 1.2rem;
+            background-color: #FF4500;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:hover {
+            background-color: #FF6347;
+        }
+
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .birthday-card {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Birthday Dear!</h1>
+        <div class="birthday-card">
+            <!-- Cake image instead of balloons -->
+            <div class="cake">
+                <img src="360_F_602051873_pbb9vLBzDeu2OJN8xHBX4n5tYjf6iGIP-removebg-preview.png" alt="Birthday Cake" width="200">
+            </div>
+            <button class="button" onclick="startCelebration()">Celebrate</button>
+            <button class="button" onclick="playMusic()">Play Birthday Song</button>
+            <audio id="birthday-song" src="happy-birthday-155461.mp3"></audio>
+        </div>
+        <div><footer> &copy; 2024 All rights reserved Birthday wish by Yemna Mehmood </footer></div>
+    </div>
+
+    <!-- Confetti for celebration -->
+    <canvas id="confetti"></canvas>
+
+    <script>
+        // JavaScript functionality for confetti, music, and interactions
+        const confettiCanvas = document.getElementById("confetti");
+        const birthdaySong = document.getElementById("birthday-song");
+
+        function startCelebration() {
+            // Display confetti animation
+            confettiCanvas.style.display = "block";
+            launchConfetti();
+
+            // Light candles (on cake) 
+            lightCandles();
+        }
+
+        function playMusic() {
+            birthdaySong.play();
+        }
+
+        function lightCandles() {
+            alert('Candles lit on the cake! 🎂');
+        }
+
+        // Confetti function
+        function launchConfetti() {
+            const ctx = confettiCanvas.getContext("2d");
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+
+            let confetti = [];
+
+            for (let i = 0; i < 200; i++) {
+                confetti.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+                    r: Math.random() * 7 + 2,
+                    dx: Math.random() * 5 - 2.5,
+                    dy: Math.random() * 4 + 3
+                });
+            }
+
+            function drawConfetti() {
+                ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+
+                confetti.forEach((c, i) => {
+                    ctx.beginPath();
+                    ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    ctx.fill();
+
+                    c.x += c.dx;
+                    c.y += c.dy;
+
+                    if (c.y > confettiCanvas.height) {
+                        confetti[i].y = -confetti[i].r;
+                    }
+                });
+
+                requestAnimationFrame(drawConfetti);
+            }
+
+            drawConfetti();
+        }
+
+        // Resize confetti on window resize
+        window.addEventListener("resize", () => {
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
